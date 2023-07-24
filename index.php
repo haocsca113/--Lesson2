@@ -2,18 +2,6 @@
     include("class/clstmdt.php");
     $p = new tmdt();
 
-    // $soluong_moi_trang = 10;
-    // if(isset($_REQUEST["page"]))
-    // {
-    //     $page = $_REQUEST["page"];
-    // }
-    // else
-    // {
-    //     $page = 1;
-    // }
-
-    // $start_from = ($page - 1) * $soluong_moi_trang;
-    // $p->xuatsanpham("select * from sanpham limit $start_from,$soluong_moi_trang");
 ?>
 <!DOCTYPE html>
 <html lang="en">
