@@ -1,6 +1,19 @@
 <?php
     include("class/clstmdt.php");
     $p = new tmdt();
+
+    // $soluong_moi_trang = 10;
+    // if(isset($_REQUEST["page"]))
+    // {
+    //     $page = $_REQUEST["page"];
+    // }
+    // else
+    // {
+    //     $page = 1;
+    // }
+
+    // $start_from = ($page - 1) * $soluong_moi_trang;
+    // $p->xuatsanpham("select * from sanpham limit $start_from,$soluong_moi_trang");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +56,7 @@
                 <!-- Div trái Header -->
                 <div class="col-md-6 d-flex">
                     <!-- ẤN VÀO NÚT Products thì hiện thông tin toàn bộ sản phẩm -->
-                    <a href="?id_danhmuc=0"><button class="btn btn-primary mr-2" style="height: 40px;">Products</button></a>
+                    <a href="index.php"><button class="btn btn-primary mr-2" style="height: 40px;">Products</button></a>
 
                     <button class="btn btn-light" style="height: 40px;">Categories</button> 
                     <ul style="list-style: none; padding-left: 10px;">
@@ -68,7 +81,7 @@
             <div class="row mt-4">
                 <input type="text" name="" id="" placeholder="Search" class="w-100" style="border: 2px solid #ccc; padding: 0 45%;">
             </div>
-
+            
             <div class="row mt-4">
                 <div class="col-md-6">
                     <p class="font-weight-bold">Search found 15 results</p>
@@ -100,18 +113,43 @@
                                 <!--*********** CODE PHP XUẤT TẤT CẢ SẢN PHẨM TRONG DB sanpham  -->
                                 <?php
                                     // Nhận id_danhmuc trong file clstmdt.php function load_menu_danhmuc() 
-                                    $id_danhmuc = $_REQUEST['id_danhmuc'];
+                                    if(isset($_REQUEST['id_danhmuc']))
+                                    {
+                                        $id_danhmuc = $_REQUEST['id_danhmuc'];
+                                    }
+                                    else
+                                    {
+                                        $id_danhmuc = 0;
+                                    }
+
+                                    $soluong_moi_trang = 10;
+                                    if(isset($_REQUEST['page']))
+                                    {
+                                        $page = $_REQUEST['page'];
+                                    }
+                                    else
+                                    {
+                                        $page = 1;
+                                    }
+                                    $start_from = ($page - 1) * $soluong_moi_trang;
                                     
                                     // Nếu sanpham có id_danhmuc nào thì xuất sản phẩm có id_danhmuc tương ứng
                                     if($id_danhmuc > 0)
                                     {
                                         $p->xuatsanpham("select * from sanpham where id_danhmuc='$id_danhmuc' order by id asc");
                                     }
+                                    else if($page > 0)
+                                    {
+                                        $p->xuatsanpham("select * from sanpham limit $start_from,$soluong_moi_trang");
+                                    }
+
                                     // Ngược lại in ra toàn bộ sản phẩm
                                     else
                                     {
                                         $p->xuatsanpham("select * from sanpham order by id asc");
                                     }
+
+                                    
                                 ?>
                                 <!--*********** END CODE PHP XUẤT TẤT CẢ SẢN PHẨM TRONG DB sanpham  -->
                             </tbody>
@@ -127,12 +165,16 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                            <?php
+                                $p->phantrang("select * from sanpham");
+                            ?>
                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </nav>
+                    
                 </div>
             </div>
         </div>

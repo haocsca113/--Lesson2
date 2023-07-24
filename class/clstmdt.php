@@ -22,6 +22,7 @@ class tmdt
         $ketqua = mysqli_query($link, $sql);
         $i = mysqli_num_rows($ketqua);
         $dem = 1;
+        
         if($i > 0)
         {
             while($row = mysqli_fetch_array($ketqua))
@@ -30,7 +31,6 @@ class tmdt
                 $tensp = $row['tensp'];
                 $hinhanh = $row['hinhanh'];
                 $id_danhmuc = $row['id_danhmuc'];
-                // $tendanhmuc = laycot("select tendanhmuc from danhmuc where id='$id_danhmuc'");
 
                 echo '<tr>
                         <td class="pc">'.$dem.'</td>
@@ -53,14 +53,17 @@ class tmdt
             echo 'Khong co csdl';
         }
 
+
         mysqli_close($link);
     }
+
 
     public function xuatchitietsp($sql)
     {
         $link = $this->connect();
         $ketqua = mysqli_query($link, $sql);
         $i = mysqli_num_rows($ketqua);
+        
 
         if($i > 0)
         {
@@ -107,6 +110,22 @@ class tmdt
 		{
 			echo 'Khong co csdl';
 		}
+		mysqli_close($link);
+    }
+
+    public function phantrang($sql)
+    {
+        $link = $this->connect();
+		$ketqua = mysqli_query($link, $sql);
+		$i = mysqli_num_rows($ketqua);
+        $soluong_moi_trang = 10;
+        $tongsotrang = ceil($i / $soluong_moi_trang);
+
+        for($j = 1; $j <= $tongsotrang; $j++)
+        {
+            echo '<li class="page-item"><a class="page-link" href="index.php?page='.$j.'">'.$j.'</a></li>';
+            
+        }
 		mysqli_close($link);
     }
 }
