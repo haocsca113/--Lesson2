@@ -66,13 +66,22 @@
         
         <div class="content">
             <!-- Thanh tìm kiếm -->
-            <div class="row mt-4">
-                <input type="text" name="" id="" placeholder="Search" class="w-100" style="border: 2px solid #ccc; padding: 0 45%;">
-            </div>
+            <!-- <input type="text" name="" id="" placeholder="Search" class="w-100" style="border: 2px solid #ccc; padding: 0 45%;"> -->
+            <form action="" method="post" class="w-100">
+                <div class="row mt-4">
+
+                    <div class="col-md-10">
+                        <input type="text" name="search" id="search" placeholder="Search" value="" style="border: 2px solid #ccc; width: 100%; padding: 0 45%;">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-dark btn-sm w-100" type="submit" name="submit">Search</button>
+                    </div>
+                </div>
+            </form>
             
             <div class="row mt-4">
                 <div class="col-md-6">
-                    <p class="font-weight-bold">Search found 15 results</p>
+                    <p class="font-weight-bold">Search found 10 results</p>
                 </div>
 
                 <!-- Nút thêm sản phẩm -->
@@ -120,6 +129,15 @@
                                         $page = 1;
                                     }
                                     $start_from = ($page - 1) * $soluong_moi_trang;
+
+                                    if(isset($_POST['submit']))
+                                    {
+                                        $search = $_POST['search'];
+                                        $id_danhmuc = -99;
+                                        $page = -99;
+
+                                        $p->xuatsanpham("select * from sanpham where tensp='$search'");
+                                    }
                                     
                                     // Nếu sanpham có id_danhmuc nào thì xuất sản phẩm có id_danhmuc tương ứng
                                     if($id_danhmuc > 0)
@@ -130,9 +148,9 @@
                                     {
                                         $p->xuatsanpham("select * from sanpham limit $start_from,$soluong_moi_trang");
                                     }
-
-                                    // Ngược lại in ra toàn bộ sản phẩm
-                                    else
+                                    
+                                    // Ngược lại nếu $id_danhmuc == 0 in ra toàn bộ sản phẩm
+                                    else if($id_danhmuc == 0)
                                     {
                                         $p->xuatsanpham("select * from sanpham order by id asc");
                                     }
